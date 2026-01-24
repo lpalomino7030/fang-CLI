@@ -168,13 +168,13 @@ Fang-js follows the Minimalist Power philosophy:
 
 Fang-js is built for low-latency environments. By avoiding deep dependency trees and leveraging native Node.js HTTP modules, Fang-js ensures that your business logic runs without the framework overhead.
 
-- **Near-zero overhead** on request routing.
-- **Optimized Zod parsing** for incoming data.
-- **Clean Context object** to reduce garbage collection pressure.
+- Near-zero overhead on request routing.
+- Optimized Zod parsing for incoming data.
+- Clean Context object to reduce garbage collection pressure.
 
 ## 🥊 Fang-js vs The Industry 🥊
 
-| Feature          | Express.js               | Koa.js              | **Fang-js** 🧛‍♂️              |
+| Feature          | Express.js               | Koa.js              | **Fang-js**🐺              |
 | :--------------- | :----------------------- | :------------------ | :-------------------------- |
 | **Philosophy**   | "Batteries included"     | Barebones / Minimal | **Strictly Typed / Secure** |
 | **Validation**   | Manual / Third-party     | Third-party         | **Native Zod Integration**  |
@@ -183,6 +183,12 @@ Fang-js is built for low-latency environments. By avoiding deep dependency trees
 | **Cookies**      | Requires `cookie-parser` | Built-in (no Zod)   | **Native + Zod Schema**     |
 | **Dependencies** | ~30+ transitive          | ~20+ transitive     | **1 (Zod)**                 |
 | **Bundle Size**  | Heavy                    | Moderate            | **Ultra-Lightweight**       |
+
+> [IMPORTANT]
+>
+> **![Status](https://img.shields.io/badge/status-under--development-orange)** 
+> Fang-js is currently in active development. A stable version has not yet been published to **npm**. 
+> If you want to experiment with the framework, you can clone this repository and link it locally. Stay tuned for the `v1.0.0` release! 🚀
 
 ### 👤 Author
 
