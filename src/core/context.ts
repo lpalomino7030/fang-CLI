@@ -161,13 +161,16 @@ export class Context {
    * });
    */
   setCookie(name: string, value: string, options: CookieOptions = {}) {
-    const {
+    let {
       httpOnly = true,
       secure = true,
       sameSite = "Lax",
       maxAge,
       path = "/",
     } = options;
+
+    if (sameSite === "None") secure = true;
+
     let cookieStr = `${name}=${value}; Path=${path}; SameSite=${sameSite}`;
 
     if (httpOnly) cookieStr += "; HttpOnly";
