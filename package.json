@@ -1,0 +1,62 @@
+{
+  "name": "fang-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./middlewares": {
+      "types": "./dist/middlewares/index.d.ts",
+      "import": "./dist/middlewares/index.js"
+    },
+    "./zod": {
+      "types": "./dist/zod/index.d.ts",
+      "import": "./dist/zod/index.js"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./exceptions": {
+      "types": "./dist/exceptions/index.d.ts",
+      "import": "./dist/exceptions/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "build": "tsc"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "fang",
+    "typescript",
+    "zod",
+    "node",
+    "framework"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^25.0.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "zod": "^4.3.5"
+  },
+  "peerDependencies": {
+    "zod": "^4.3.5"
+  }
+}

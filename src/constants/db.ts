@@ -1,0 +1,9 @@
+export const MYSQL = 3306;
+export const POSTGRESQL = 5432;
+export const SQL_SERVER = 1433;
+export const MARIADB = 3306;
+export const ORACLE = 1521;
+export const MONGO = 27017;
+export const REDIS = 6379;
+export const CASSANDRA = 9042;
+export const RABBITMQ = 5672;
