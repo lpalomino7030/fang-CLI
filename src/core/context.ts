@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "node:http";
 import { z } from "zod";
 import { httpStatus } from "../types/http-status.js";
 import { BadRequestException } from "../exceptions/errors.js";
+import type { CookieOptions } from "../types/types.js";
 
 /**
  * Represents the context of the current HTTP request and response.
@@ -125,6 +126,73 @@ export class Context {
     const parsed = schema.safeParse(this.req.headers);
     if (!parsed.success) throw new BadRequestException("Invalid header schema");
     return parsed.data;
+  }
+
+  /**
+   * Gets all cookies sent in the request.
+   * Parses the `Cookie` header into a key-value pair object.
+   * * @returns {Record<string, string>} An object containing all cookie names and their values.
+   * @example
+   * const { session_id } = ctx.cookies;
+   */
+  getCookies(): Record<string, string> {
+    const cookieHeader = this.req.headers.cookie;
+
+    if (!cookieHeader) return {};
+
+    return Object.fromEntries(
+      cookieHeader.split(";").map((cookie) => {
+        const [name, ...value] = cookie.trim().split("=");
+        return [name?.trim(), value.join("=")];
+      }),
+    );
+  }
+
+  /**
+   * Sets a cookie in the response.
+   * Appends to existing `Set-Cookie` headers if they exist.
+   * * @param {string} name - The name of the cookie.
+   * @param {string} value - The value to store in the cookie.
+   * @param {CookieOptions} [options={}] - Configuration for the cookie (HttpOnly, Secure, etc.).
+   * * @example
+   * ctx.setCookie('token', 'abc-123', {
+   * httpOnly: true,
+   * maxAge: 3600
+   * });
+   */
+  setCookie(name: string, value: string, options: CookieOptions = {}) {
+    const {
+      httpOnly = true,
+      secure = true,
+      sameSite = "Lax",
+      maxAge,
+      path = "/",
+    } = options;
+    let cookieStr = `${name}=${value}; Path=${path}; SameSite=${sameSite}`;
+
+    if (httpOnly) cookieStr += "; HttpOnly";
+    if (secure) cookieStr += "; Secure";
+    if (maxAge) cookieStr += `; Max-Age=${maxAge}`;
+
+    let cookieArray: string[] = [];
+    const existingHeaders = this.res.getHeader("Set-Cookie");
+
+    if (Array.isArray(existingHeaders)) {
+      cookieArray = existingHeaders.map(String).concat(cookieStr);
+    } else if (existingHeaders) {
+      cookieArray = [String(existingHeaders), cookieStr];
+    } else {
+      cookieArray = [cookieStr];
+    }
+
+    this.res.setHeader("Set-Cookie", cookieArray);
+  }
+
+  /**
+   * Deletes a cookie by setting its expiration date to the past.
+   */
+  removeCookie(name: string, path: string = "/") {
+    this.setCookie(name, "", { maxAge: 0, path });
   }
 
   /**
