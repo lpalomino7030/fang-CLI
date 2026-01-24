@@ -1,6 +1,7 @@
 import { IncomingMessage, ServerResponse } from "node:http";
 import { z } from "zod";
 import { httpStatus } from "../types/http-status.js";
+import { BadRequestException } from "../exceptions/errors.js";
 
 /**
  * Represents the context of the current HTTP request and response.
@@ -20,7 +21,7 @@ export class Context {
   constructor(
     public req: IncomingMessage,
     public res: ServerResponse,
-    public params: Record<string, string> = {}
+    public params: Record<string, string> = {},
   ) {
     const url = new URL(req.url || "/", `http://${req.headers.host}`);
     this.query = Object.fromEntries(url.searchParams.entries());
@@ -85,6 +86,45 @@ export class Context {
         reject(err);
       });
     });
+  }
+
+  /**
+   * Validates and types the URL search parameters (Query Strings).
+   * * @template T - The type inferred from the validation schema.
+   * @param {z.ZodType<T>} schema - The Zod schema to validate `ctx.query` against.
+   * @returns {T} The validated and type-casted query data.
+   * @throws {BadRequestException} If the query data does not match the schema.
+   * * @example
+   * const query = ctx.getQuery(z.object({
+   * page: z.coerce.number().default(1),
+   * search: z.string().optional()
+   * }));
+   */
+  getQuery<T>(schema: z.ZodType<T>) {
+    const parsed = schema.safeParse(this.query);
+    if (!parsed.success) throw new BadRequestException("Invalid query schema");
+    return parsed.data;
+  }
+
+  /**
+   * Validates and types the request headers against a Zod schema.
+   * * @template T - The type inferred from the validation schema.
+   * @param {z.ZodType<T>} schema - The Zod schema to validate the headers against.
+   * @returns {T} The validated headers data.
+   * @throws {BadRequestException} If the headers do not match the schema.
+   * * @remarks
+   * Node.js automatically converts all incoming header names to lowercase.
+   * Ensure your schema keys are defined in lowercase.
+   * * @example
+   * const headers = ctx.getHeader(z.object({
+   * 'authorization': z.string().startsWith('Bearer '),
+   * 'x-api-key': z.string()
+   * }).passthrough());
+   */
+  getHeader<T>(schema: z.ZodType<T>) {
+    const parsed = schema.safeParse(this.req.headers);
+    if (!parsed.success) throw new BadRequestException("Invalid header schema");
+    return parsed.data;
   }
 
   /**
