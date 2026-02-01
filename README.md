@@ -6,6 +6,12 @@ Fang-js was born from a radical idea: What if a framework didn't try to do every
 
 Unlike other frameworks that force you to learn proprietary validation rules or install hundreds of unnecessary dependencies, Fang-js embraces industry standards. By integrating Zod as its only core dependency, we ensure that every piece of data entering your application is exactly what you expect, with automatically generated TypeScript types. It is the ideal tool for developers who value maintainability, cookie security, and clean architecture without "black magic."
 
+Documentation:
+
+```bash
+https://fang-js-docs.vercel.app/
+```
+
 ### ✨ Key Feactures
 
 - **Single-Dependency Core:** Only Zod lives in your node_modules. Maximum security, minimum footprint.
