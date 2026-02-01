@@ -72,6 +72,10 @@ export function Service<T extends new (...args: any[]) => ServiceRouteType>(
  * }
  * ```
  */
-export interface IBaseService {
+interface IBaseService {
+  [key: string]: (ctx: Context, ...args: any[]) => any | Promise<any>;
+}
+
+export abstract class BaseService implements IBaseService {
   [key: string]: (ctx: Context, ...args: any[]) => any | Promise<any>;
 }
