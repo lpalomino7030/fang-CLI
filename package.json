@@ -1,5 +1,5 @@
 {
-  "name": "fang-js",
+  "name": "@fang-js/fang",
   "version": "1.0.0",
   "description": "A zero-dependency, high-performance, and minimalist web framework for Node.js.",
   "main": "./dist/index.js",
