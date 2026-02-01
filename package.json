@@ -1,7 +1,7 @@
 {
   "name": "fang-js",
   "version": "1.0.0",
-  "description": "",
+  "description": "A zero-dependency, high-performance, and minimalist web framework for Node.js.",
   "main": "./dist/index.js",
   "type": "module",
   "types": "./dist/index.d.ts",
@@ -37,21 +37,25 @@
   },
   "scripts": {
     "dev": "node --loader ts-node/esm src/index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "keywords": [
-    "fang",
-    "typescript",
-    "zod",
+    "framework",
     "node",
-    "framework"
+    "zero-dependency",
+    "minimalist",
+    "typescript",
+    "fast",
+    "zod"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Luis Angel Fernandez Concepcion",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^25.0.8",
     "ts-node": "^10.9.2",
