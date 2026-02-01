@@ -32,17 +32,24 @@ export class Router {
   add(method: string, path: string, ...fns: Middleware[]) {
     const keys: string[] = [];
 
+    // Normalize the path: remove trailing slash unless it's the root path itself.
+    let processedPath = path;
+    if (processedPath.length > 1 && processedPath.endsWith("/")) {
+      processedPath = processedPath.slice(0, -1);
+    }
+
     // Replace :param with a regex capture group and store the key name
-    const pattern = path.replace(/:([a-zA-Z0-9]+)/g, (_, key) => {
+    const pattern = processedPath.replace(/:([a-zA-Z0-9]+)/g, (_, key) => {
       keys.push(key);
       return "([^/]+)";
     });
 
-    const regex = new RegExp(`^${pattern}$`);
+    // For matching, create a regex that allows an optional trailing slash on non-root paths.
+    const regex = new RegExp(`^${pattern === "/" ? pattern : `${pattern}/?`}$`);
 
     this.routes.push({
       method,
-      path,
+      path, // Store the original, user-provided path for reference
       regex,
       stack: fns,
       keys,
@@ -118,12 +125,13 @@ export class RouteGroup {
       : `/${this.prefix}`;
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
 
-    // Ensure no double slashes during concatenation
-    const fullPath = `${cleanPrefix}${cleanPath}`.replace(/\/+/g, "/");
+    let fullPath = `${cleanPrefix}${cleanPath}`.replace(/\/+/g, "/");
 
-    // Prepend group middlewares to the specific route middleware stack
+    if (fullPath.length > 1 && fullPath.endsWith("/")) {
+      fullPath = fullPath.slice(0, -1);
+    }
+
     const totalStack = [...this.middlewares, ...middleware];
-
     this.parentApp.add(method, fullPath, ...totalStack);
   }
 

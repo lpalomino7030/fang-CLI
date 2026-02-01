@@ -144,11 +144,21 @@ export class Fang {
         `${cyan}${method}${reset} ${ctx.req.url} - ${green}${ms}ms${reset} ${cyan}[Status ${res.statusCode}]${reset}`,
       );
     } catch (error) {
+      const start = Date.now();
+
+      //Colors ASINC
+      const cyan = "\x1b[36m";
+      const green = "\x1b[32m";
+      const reset = "\x1b[0m";
       if (this.globalErrorHandler) {
         this.globalErrorHandler(error as Error, ctx);
       } else {
         this.handlerGenericError(error as Error, res);
       }
+      const ms = Date.now() - start;
+      console.log(
+        `${cyan}${method}${reset} ${ctx.req.url} - ${green}${ms}ms${reset} ${cyan}[Status ${res.statusCode}]${reset}`,
+      );
     }
   }
 
@@ -184,11 +194,18 @@ export class Fang {
 
   /**
    * Creates a routing group with a common prefix.
-   * @param prefix - The path prefix (e.g., "/api/v1").
-   * @returns A new RouteGroup instance.
+   * @param prefix - The base path for all routes in this group (e.g., "/api/v1").
+   * @param callback - An optional function to define routes within the group.
+   * Useful for modularizing routes across different files.
+   * @returns A new RouteGroup instance for manual registration or chaining.
    */
-  public group(prefix: string): RouteGroup {
-    return new RouteGroup(prefix, this.router);
+  public group(
+    prefix: string,
+    callback?: (group: RouteGroup) => void,
+  ): RouteGroup {
+    const group = new RouteGroup(prefix, this.router);
+    if (callback) callback(group);
+    return group;
   }
 
   /**

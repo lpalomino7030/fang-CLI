@@ -1,3 +1,4 @@
+import { UnauthorizedException } from "../exceptions/errors.js";
 import { verifyJwt } from "../security/index.js";
 import type { Middleware } from "../types/types.js";
 
@@ -22,26 +23,24 @@ export const auth = (secret: string): Middleware => {
 
     // Validate header presence and Bearer prefix
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return ctx.unauthorized({
-        error: "Unauthorized: Missing or invalid token format",
-      });
+      throw new UnauthorizedException(
+        "Unauthorized: Missing or invalid token format",
+      );
     }
 
     // Extract token string
     const token = authHeader.split(" ")[1];
     if (!token) {
-      return ctx.unauthorized({ error: "Unauthorized: Token string is empty" });
+      throw new UnauthorizedException("Unauthorized: Token string is empty");
     }
 
     // Cryptographic verification
     const user = verifyJwt(token, secret);
 
     if (!user) {
-      return ctx.unauthorized({
-        error: "Unauthorized: Invalid or expired token",
-      });
+      throw new UnauthorizedException("Unauthorized: Invalid or expired token");
     }
-    
+
     // Inject decoded data into the context state
     ctx.state.user = user;
 
