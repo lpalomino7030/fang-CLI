@@ -132,24 +132,13 @@ export class Fang {
 
     try {
       const start = Date.now();
-
-      //Colors ASINC
-      const cyan = "\x1b[36m";
-      const green = "\x1b[32m";
-      const reset = "\x1b[0m";
-
       await next();
       const ms = Date.now() - start;
       console.log(
-        `${cyan}${method}${reset} ${ctx.req.url} - ${green}${ms}ms${reset} ${cyan}[Status ${res.statusCode}]${reset}`,
+        `${colors.cyan}${method}${colors.reset} ${ctx.req.url} - ${colors.green}${ms}ms${colors.reset} ${colors.cyan}[Status ${res.statusCode}]${colors.reset}`,
       );
     } catch (error) {
       const start = Date.now();
-
-      //Colors ASINC
-      const cyan = "\x1b[36m";
-      const green = "\x1b[32m";
-      const reset = "\x1b[0m";
       if (this.globalErrorHandler) {
         this.globalErrorHandler(error as Error, ctx);
       } else {
@@ -157,7 +146,7 @@ export class Fang {
       }
       const ms = Date.now() - start;
       console.log(
-        `${cyan}${method}${reset} ${ctx.req.url} - ${green}${ms}ms${reset} ${cyan}[Status ${res.statusCode}]${reset}`,
+        `${colors.cyan}${method}${colors.reset} ${ctx.req.url} - ${colors.green}${ms}ms${colors.reset} ${colors.red}[Status ${res.statusCode}]${colors.reset}`,
       );
     }
   }
