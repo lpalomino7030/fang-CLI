@@ -3,7 +3,6 @@ import { RouteGroup, Router } from "./router.js";
 import { Context } from "./context.js";
 import type { Middleware, NextFunction } from "../types/types.js";
 import { logger } from "../utils/logger.js";
-import { colors } from "../types/colors-enum.js";
 import { HttpException } from "../exceptions/errors.js";
 import { methods } from "../types/method-enum.js";
 import { Logger, type ILogger } from "./logger.js";
@@ -193,7 +192,6 @@ export class Fang {
     const status = err instanceof HttpException ? err.status : 500;
     const message = err.message || "Internal Server Error";
 
-    console.error(`[Fang Error]:`, err);
     res.writeHead(status, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify({
