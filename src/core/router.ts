@@ -1,3 +1,4 @@
+import { methods } from "../types/method-enum.js";
 import type { Middleware } from "../types/types.js";
 
 /**
@@ -137,22 +138,42 @@ export class RouteGroup {
 
   /** Registers a GET route within the group. */
   get(path: string, ...middleware: Middleware[]) {
-    this.addRoute("GET", path, ...middleware);
+    this.addRoute(methods.GET, path, ...middleware);
   }
   /** Registers a POST route within the group. */
   post(path: string, ...middleware: Middleware[]) {
-    this.addRoute("POST", path, ...middleware);
+    this.addRoute(methods.POST, path, ...middleware);
   }
   /** Registers a PUT route within the group. */
   put(path: string, ...middleware: Middleware[]) {
-    this.addRoute("PUT", path, ...middleware);
+    this.addRoute(methods.PUT, path, ...middleware);
   }
   /** Registers a PATCH route within the group. */
   patch(path: string, ...middleware: Middleware[]) {
-    this.addRoute("PATCH", path, ...middleware);
+    this.addRoute(methods.PATCH, path, ...middleware);
   }
   /** Registers a DELETE route within the group. */
   delete(path: string, ...middleware: Middleware[]) {
-    this.addRoute("DELETE", path, ...middleware);
+    this.addRoute(methods.DELETE, path, ...middleware);
+  }
+
+  /** Registers a HEAD route within the group. */
+  head(path: string, ...middleware: Middleware[]) {
+    this.addRoute(methods.HEAD, path, ...middleware);
+  }
+
+  /** Registers a OPTIONS route within the group. */
+  options(path: string, ...middleware: Middleware[]) {
+    this.addRoute(methods.OPTIONS, path, ...middleware);
+  }
+
+  /** Registers a TRACE route within the group. */
+  trace(path: string, ...middleware: Middleware[]) {
+    this.addRoute(methods.TRACE, path, ...middleware);
+  }
+
+  /** Registers a CONNECT route within the group. */
+  connect(path: string, ...middleware: Middleware[]) {
+    this.addRoute(methods.CONNECT, path, ...middleware);
   }
 }

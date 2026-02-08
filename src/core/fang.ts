@@ -5,6 +5,7 @@ import type { Middleware, NextFunction } from "../types/types.js";
 import { logger } from "../utils/logger.js";
 import { colors } from "../types/colors-enum.js";
 import { HttpException } from "../exceptions/errors.js";
+import { methods } from "../types/method-enum.js";
 
 type ErrorHandler = (err: any, ctx: Context) => void;
 
@@ -26,7 +27,7 @@ export class Fang {
    * @param middleware - A sequence of middlewares to execute for this route.
    */
   public get(path: string, ...middleware: Middleware[]) {
-    this.router.add("GET", path, ...middleware);
+    this.router.add(methods.GET, path, ...middleware);
   }
 
   /**
@@ -35,7 +36,7 @@ export class Fang {
    * @param middleware - A sequence of middlewares to execute for this route.
    */
   public post(path: string, ...middleware: Middleware[]) {
-    this.router.add("POST", path, ...middleware);
+    this.router.add(methods.POST, path, ...middleware);
   }
 
   /**
@@ -44,7 +45,7 @@ export class Fang {
    * @param middleware - A sequence of middlewares to execute for this route.
    */
   public put(path: string, ...middleware: Middleware[]) {
-    this.router.add("PUT", path, ...middleware);
+    this.router.add(methods.PUT, path, ...middleware);
   }
 
   /**
@@ -53,7 +54,7 @@ export class Fang {
    * @param middleware - A sequence of middlewares to execute for this route.
    */
   public patch(path: string, ...middleware: Middleware[]) {
-    this.router.add("PATCH", path, ...middleware);
+    this.router.add(methods.PATCH, path, ...middleware);
   }
 
   /**
@@ -62,7 +63,43 @@ export class Fang {
    * @param middleware - A sequence of middlewares to execute for this route.
    */
   public delete(path: string, ...middleware: Middleware[]) {
-    this.router.add("DELETE", path, ...middleware);
+    this.router.add(methods.DELETE, path, ...middleware);
+  }
+
+  /**
+   * Registers a HEAD route.
+   * @param path - The route path.
+   * @param middleware - A sequence of middlewares to execute for this route.
+   */
+  public head(path: string, ...middleware: Middleware[]) {
+    this.router.add(methods.HEAD, path, ...middleware);
+  }
+
+  /**
+   * Registers an OPTIONS route.
+   * @param path - The route path.
+   * @param middleware - A sequence of middlewares to execute for this route.
+   */
+  public options(path: string, ...middleware: Middleware[]) {
+    this.router.add(methods.OPTIONS, path, ...middleware);
+  }
+
+  /**
+   * Registers a TRACE route.
+   * @param path - The route path.
+   * @param middleware - A sequence of middlewares to execute for this route.
+   */
+  public trace(path: string, ...middleware: Middleware[]) {
+    this.router.add(methods.TRACE, path, ...middleware);
+  }
+
+  /**
+   * Registers a CONNECT route.
+   * @param path - The route path.
+   * @param middleware - A sequence of middlewares to execute for this route.
+   */
+  public connect(path: string, ...middleware: Middleware[]) {
+    this.router.add(methods.CONNECT, path, ...middleware);
   }
 
   /**
