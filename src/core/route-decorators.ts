@@ -1,5 +1,4 @@
 import type { Context } from "./context.js";
-import { Logger } from "./logger.js";
 import type { RouteGroup } from "./router.js";
 
 /**
@@ -38,9 +37,8 @@ type ServiceRouteType = {
  * @param controller - The class constructor to be decorated.
  */
 export const Controller = (controller: Controllertype) => {
-  const logger = new Logger();
-  logger.info(`Controller ${controller.name} registered`);
-};
+  return controller;
+}
 
 /**
  * Decorator for Service classes.

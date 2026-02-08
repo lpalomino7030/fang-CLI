@@ -6,6 +6,7 @@ import { logger } from "../utils/logger.js";
 import { colors } from "../types/colors-enum.js";
 import { HttpException } from "../exceptions/errors.js";
 import { methods } from "../types/method-enum.js";
+import { Logger, type ILogger } from "./logger.js";
 
 type ErrorHandler = (err: any, ctx: Context) => void;
 
@@ -18,6 +19,7 @@ export class Fang {
   private middlewares: Middleware[] = [];
   private timeout: number | null = null;
   private globalErrorHandler: ErrorHandler | null = null;
+  private logger: ILogger = new Logger();
 
   //#region Http Methods
 
@@ -132,9 +134,7 @@ export class Fang {
               message: "The server took too long to respond",
             }),
           );
-          console.warn(
-            `${colors.yellow}[Fang Warning]: Request timed out after ${this.timeout}ms${colors.reset}`,
-          );
+          this.logger.warn(`Request timed out after ${this.timeout}ms`);
           return;
         }
       });
@@ -171,9 +171,7 @@ export class Fang {
       const start = Date.now();
       await next();
       const ms = Date.now() - start;
-      console.log(
-        `${colors.cyan}${method}${colors.reset} ${ctx.req.url} - ${colors.green}${ms}ms${colors.reset} ${colors.cyan}[Status ${res.statusCode}]${colors.reset}`,
-      );
+      this.logger.logHttp(method, path, ms, res.statusCode);
     } catch (error) {
       const start = Date.now();
       if (this.globalErrorHandler) {
@@ -182,9 +180,7 @@ export class Fang {
         this.handlerGenericError(error as Error, res);
       }
       const ms = Date.now() - start;
-      console.log(
-        `${colors.cyan}${method}${colors.reset} ${ctx.req.url} - ${colors.green}${ms}ms${colors.reset} ${colors.red}[Status ${res.statusCode}]${colors.reset}`,
-      );
+      this.logger.logHttp(method, path, ms, res.statusCode, true);
     }
   }
 
@@ -243,6 +239,17 @@ export class Fang {
     this.timeout = timeout;
     return this;
   }
+
+  /**
+   * Replaces the default logger with a custom implementation.
+   * The custom logger must implement the ILogger interface.
+   * @param customLogger - An object implementing ILogger.
+   */
+  public setLogger(customLogger: ILogger) {
+    this.logger = customLogger;
+    return this; // Para permitir encadenamiento
+  }
+
   //#endregion
 
   /**

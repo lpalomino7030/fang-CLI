@@ -1,6 +1,5 @@
 export { Fang } from "./core/fang.js";
 export { Context } from "./core/context.js";
-export { Logger } from "./core/logger.js";
+export { Logger, type ILogger } from "./core/logger.js";
 export { RouteGroup } from "./core/router.js";
-export { Controller, Service } from "./core/route-decorators.js";
-export { BaseService } from "./core/route-decorators.js";
+export { Controller, Service, BaseService } from "./core/route-decorators.js";

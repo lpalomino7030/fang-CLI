@@ -1,9 +1,23 @@
 import { colors } from "../types/colors-enum.js";
 
+export interface ILogger {
+  info(msg: string): void;
+  warn(msg: string): void;
+  error(msg: string): void;
+  logHttp(
+    method: string,
+    url: string,
+    ms: number,
+    statusCode: number,
+    isError?: boolean,
+  ): void;
+  custom(msg: string, tag: string, color: colors): void;
+}
+
 /**
  * Utility class for formatted console logging with ANSI colors.
  */
-export class Logger {
+export class Logger implements ILogger {
   constructor() {}
 
   /**
@@ -18,7 +32,7 @@ export class Logger {
    * Logs a warning message with a yellow [WARN] tag.
    * @param msg - The warning message to display.
    */
-  warm(msg: string) {
+  warn(msg: string) {
     console.log(`${colors.yellow}[WARN]${colors.reset} ${msg}`);
   }
 
@@ -28,6 +42,23 @@ export class Logger {
    */
   error(msg: string) {
     console.log(`${colors.red}[ERROR]${colors.reset} ${msg}`);
+  }
+
+  logHttp(
+    method: string,
+    url: string,
+    ms: number,
+    statusCode: number,
+    isError: boolean = false,
+  ) {
+    if (!isError)
+      console.log(
+        `${colors.cyan}${method}${colors.reset} ${url} - ${colors.green}${ms}ms${colors.reset} ${colors.cyan}[Status ${statusCode}]${colors.reset}`,
+      );
+    else
+      console.log(
+        `${colors.cyan}${method}${colors.reset} ${url} - ${colors.green}${ms}ms${colors.reset} ${colors.red}[Status ${statusCode}]${colors.reset}`,
+      );
   }
 
   /**
