@@ -5,4 +5,9 @@ export {
   ForbiddenException,
   NotFoundException,
   InternalServerErrorException,
+  NotImplementedException,
+  ServiceUnavailableException,
+  GatewayTimeoutException,
+  HttpVersionNotSupportedException,
+  InvalidBodyScheme,
 } from "./errors.js";

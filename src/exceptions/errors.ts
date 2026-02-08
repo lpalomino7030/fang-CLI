@@ -41,3 +41,33 @@ export class InternalServerErrorException extends HttpException {
     super(message, 500);
   }
 }
+
+export class NotImplementedException extends HttpException {
+  constructor(message = "Not Implemented") {
+    super(message, 501);
+  }
+}
+
+export class ServiceUnavailableException extends HttpException {
+  constructor(message = "Service Unavailable") {
+    super(message, 503);
+  }
+}
+
+export class GatewayTimeoutException extends HttpException {
+  constructor(message = "Gateway Timeout") {
+    super(message, 504);
+  }
+}
+
+export class HttpVersionNotSupportedException extends HttpException {
+  constructor(message = "HTTP Version Not Supported") {
+    super(message, 505);
+  }
+}
+
+export class InvalidBodyScheme extends HttpException {
+  constructor(message = "Invalid body scheme") {
+    super(message, 400);
+  }
+}

@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from "node:http";
 import { z } from "zod";
 import { httpStatus } from "../types/http-status.js";
-import { BadRequestException } from "../exceptions/errors.js";
+import { BadRequestException, InvalidBodyScheme } from "../exceptions/errors.js";
 import type { CookieOptions } from "../types/types.js";
 
 /**
@@ -79,7 +79,7 @@ export class Context {
             resolve(jsonData as T);
           }
         } catch (err) {
-          reject(new Error("Invalid JSON format or Server Error"));
+          reject(new InvalidBodyScheme("Invalid JSON format or Server Error"));
         }
       });
 
