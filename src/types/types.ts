@@ -39,9 +39,9 @@ export interface CorsOptions {
 
   /**
    * List of allowed HTTP methods (e.g., GET, POST, PUT).
-   * Uses the `methods` enum values.
+   * Uses the `methods` enum values or string array.
    */
-  methods?: methods[];
+  methods?: string[];
 
   /**
    * Configures the **Access-Control-Allow-Headers** CORS header.
