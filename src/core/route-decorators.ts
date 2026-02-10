@@ -38,7 +38,7 @@ type ServiceRouteType = {
  */
 export const Controller = (controller: Controllertype) => {
   return controller;
-}
+};
 
 /**
  * Decorator for Service classes.
@@ -76,4 +76,36 @@ interface IBaseService {
 
 export abstract class BaseService implements IBaseService {
   [key: string]: (ctx: Context, ...args: any[]) => any | Promise<any>;
+}
+
+export const CONTROLLER_METADATA = Symbol("fang:controller_path");
+
+/**
+ * A class decorator factory that marks a class as a routing controller
+ * and attaches the necessary metadata for the reflection-based router.
+ * * @param {string} path - The base URL path for the controller.
+ * If it doesn't start with '/', it will be automatically prefixed.
+ * * @template T - A constructor type that must implement a static `register` method.
+ * * @returns {Function} A class decorator that validates the static structure
+ * and injects the {@link CONTROLLER_METADATA}.
+ * * @example
+ * ```ts
+ * @ReflectionController("users")
+ * class UserController {
+ * static register(group: RouteGroup) {
+ * // Route definitions
+ * }
+ * }
+ * ```
+ */
+export function ReflectionController(path: string) {
+  return <T extends { register: (group: RouteGroup) => void }>(
+    constructor: T,
+  ) => {
+    // 1. Metadata for our native scanner
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    (constructor as any)[CONTROLLER_METADATA] = normalizedPath;
+
+    return constructor;
+  };
 }

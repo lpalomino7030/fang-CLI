@@ -6,6 +6,10 @@ import { logger } from "../utils/logger.js";
 import { HttpException } from "../exceptions/errors.js";
 import { methods } from "../types/method-enum.js";
 import { Logger, type ILogger } from "./logger.js";
+import { readdir } from "node:fs/promises";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
+import { CONTROLLER_METADATA } from "./route-decorators.js";
 
 type ErrorHandler = (err: any, ctx: Context) => void;
 
@@ -246,6 +250,72 @@ export class Fang {
   public setLogger(customLogger: ILogger) {
     this.logger = customLogger;
     return this; // Para permitir encadenamiento
+  }
+
+  /**
+   * Recursively scans the file system for controller modules and registers them automatically.
+   * * @description
+   * This method performs a deep scan of the directory tree starting from the `rootPath`.
+   * It dynamically imports JavaScript and TypeScript files, identifying classes decorated
+   * with `@ReflectionController` by checking for the presence of {@link CONTROLLER_METADATA}.
+   * * Once a valid controller is found, it is registered as a route group using its
+   * static `register` method.
+   * * @param {string} [rootPath=process.cwd()] - The starting directory for the scan.
+   * Defaults to the current working directory.
+   * * @returns {Promise<void>} A promise that resolves when the scanning and
+   * registration process is complete.
+   * * @throws {Error} While individual import failures are caught and ignored,
+   * directory access issues may throw.
+   * * @example
+   * ```ts
+   * await router.autoloadControllers(join(__dirname, 'controllers'));
+   * ```
+   */
+  public async autoloadControllers(
+    rootPath: string = process.cwd(),
+  ): Promise<void> {
+    const scan = async (dir: string) => {
+      const entries = await readdir(dir, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const fullPath = join(dir, entry.name);
+
+        // Ignorar node_modules, carpetas ocultas y archivos de definición
+        if (entry.name === "node_modules" || entry.name.startsWith("."))
+          continue;
+
+        if (entry.isDirectory()) {
+          await scan(fullPath);
+        } else if (
+          fullPath.match(/\.(ts|js)$/) &&
+          !fullPath.endsWith(".d.ts")
+        ) {
+          try {
+            const module = await import(pathToFileURL(fullPath).href);
+
+            for (const key in module) {
+              const Target = module[key];
+
+              // Validationmeta data
+              if (typeof Target === "function" && Target[CONTROLLER_METADATA]) {
+                const prefix = Target[CONTROLLER_METADATA];
+
+                // Register group
+                this.group(
+                  prefix.startsWith("/") ? prefix : `/${prefix}`,
+                  Target.register.bind(Target),
+                );
+              }
+            }
+          } catch (e) {
+            // Ignorar archivos que no son módulos válidos o fallan al cargar
+            continue;
+          }
+        }
+      }
+    };
+
+    await scan(rootPath);
   }
 
   //#endregion
