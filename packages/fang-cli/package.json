@@ -1,0 +1,33 @@
+{
+  "name": "fang-cli",
+  "version": "1.0.0",
+  "description": "CLI for Fang framework",
+  "type": "module",
+  "main": "./bin/index.js",
+  "bin": {
+    "fang": "./bin/index.js"
+  },
+  "scripts": {
+    "dev": "node ./bin/index.js create test-app",
+    "link": "npm link"
+  },
+  "dependencies": {
+    "@fang-js/fang": "^1.0.3"
+  },
+  "files": [
+    "bin",
+    "commands",
+    "templates"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "preferGlobal": true,
+  "author": "luis palomino medina",
+  "license": "MIT",
+  "keywords": [
+    "cli",
+    "framework",
+    "fang"
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "name": "fang-repo",
   "private": true,
   "workspaces": [
     "packages/*"
