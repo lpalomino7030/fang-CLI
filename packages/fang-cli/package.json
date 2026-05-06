@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "CLI for Fang framework",
   "type": "module",
-  "main": "./bin/index.js",
   "bin": {
     "fang": "./bin/index.js"
   },
@@ -12,11 +11,12 @@
     "link": "npm link"
   },
   "dependencies": {
-    "@fang-js/fang": "^1.0.3"
+    "@fang-js/fang": "workspace:*"
   },
   "files": [
     "bin",
     "commands",
+    "plugins",
     "templates"
   ],
   "engines": {
