@@ -1,52 +1,33 @@
-import fs from "fs";
-import path from "path";
-import { execSync } from "child_process";
-import { fileURLToPath } from "url";
-import { copyFolder } from "../plugins/CopyFolder.js";
-import { replaceProjectName } from "../plugins/ReplaceProjectName.js";
+import { ask } from "../plugins/prompts.js";
+import { generateProject } from "../plugins/generateProject.js";
+export async function createProject(projectName, flags = []) {
+  let template = "default";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-export function createProject(projectName, flags = []) {
+  // INTERACTIVE MODE
   if (!projectName) {
-    console.error("Debes especificar un nombre de proyecto");
-    process.exit(1);
+    projectName = await ask("Project name: ");
+
+    const language = await ask("Language (ts/js): ");
+
+    template = language.toLowerCase() === "js" ? "api" : "default";
+
+    console.log("Selected lenguage", template);
+
+    generateProject(template, projectName);
+    return;
   }
 
-  const targetDir = path.resolve(process.cwd(), projectName);
-
-  if (fs.existsSync(targetDir)) {
-    console.error("La carpeta ya existe");
-    process.exit(1);
-  }
-
-  // Template por defecto
-  let template = "api";
-
-  // Leer flags simples
+  // FLAG MODE
   const templateFlag = flags.find((f) => f.startsWith("--template="));
-  if (templateFlag) {
-    template = templateFlag.split("=")[1];
+
+  // fang create myapp
+  if (!templateFlag) {
+    generateProject("default", projectName);
+    return;
   }
 
-  const templateDir = path.join(__dirname, "../templates", template);
+  // fang create myapp --template=api
+  template = templateFlag.split("=")[1];
 
-  if (!fs.existsSync(templateDir)) {
-    console.error(`Template "${template}" no existe`);
-    process.exit(1);
-  }
-
-  copyFolder(templateDir, targetDir);
-
-  replaceProjectName(targetDir, projectName);
-
-  console.log("Instalando dependencias...");
-  execSync("npm install", { cwd: targetDir, stdio: "inherit" });
-
-  console.log(`
-Proyecto creado correctamente 🎉
-
-cd ${projectName}
-npm run dev
-  `);
+  generateProject(template, projectName);
 }
