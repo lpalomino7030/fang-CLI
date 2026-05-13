@@ -3,6 +3,7 @@
 import { createProject } from "../commands/create.js";
 import { startProject } from "../commands/start.js";
 import { buildProject } from "../commands/build.js";
+import { runProject } from "../commands/run.js";
 import { module } from "../commands/modules.js";
 
 const args = process.argv.slice(2);
@@ -18,6 +19,9 @@ switch (command) {
     break;
   case "build":
     buildProject(args[1]);
+    break;
+  case "dev":
+    runProject(args[1]);
     break;
   case "module":
     module(args[1], args.slice(2));
