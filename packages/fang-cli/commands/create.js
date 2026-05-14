@@ -1,5 +1,7 @@
 import { ask } from "../plugins/prompts.js";
 import { generateProject } from "../plugins/generateProject.js";
+import { generateHandleProject } from "../plugins/generateHandleProject.js";
+
 export async function createProject(projectName, flags = []) {
   let template = "default";
 
@@ -13,7 +15,8 @@ export async function createProject(projectName, flags = []) {
 
     console.log("Selected lenguage", template);
 
-    generateProject(template, projectName);
+    generateHandleProject(projectName);
+    // generateProject(template, projectName);
     return;
   }
 
