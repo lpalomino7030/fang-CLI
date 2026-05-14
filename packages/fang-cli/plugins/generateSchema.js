@@ -10,9 +10,9 @@ export class I${name}Schema {
 }  
 `;
 
-  const isExists = fs.existsSync(path.join(route, `I${name}Schema.ts`));
+  const isExists = fs.existsSync(path.join(route, `${name}.schema.ts`));
   if (!isExists) {
-    fs.writeFileSync(path.join(route, `I${name}Schema.ts`), template, "utf-8");
+    fs.writeFileSync(path.join(route, `${name}.schema.ts`), template, "utf-8");
     console.log("Schema created successfully");
   } else {
     console.log("Schema already exists");
