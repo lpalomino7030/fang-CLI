@@ -2,8 +2,8 @@ import fs from "fs";
 import { execSync } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
-import { copyFolder } from "../plugins/CopyFolder.js";
-import { replaceProjectName } from "../plugins/ReplaceProjectName.js";
+import { copyFolder } from "../utils/CopyFolder.js";
+import { replaceProjectName } from "../utils/ReplaceProjectName.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export function generateProject(template, projectName) {

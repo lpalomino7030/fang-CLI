@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { capitalizedChar } from "./capitalizedChar.js";
+import { capitalizedChar } from "../utils/capitalizedChar.js";
 
 export function generateService(name, route) {
   name = capitalizedChar(name);

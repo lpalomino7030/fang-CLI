@@ -3,6 +3,7 @@ import path from "path";
 
 export function createStructure(rootDir) {
   const folders = [
+    "./fang",
     "src",
     "src/controllers",
     "src/services",

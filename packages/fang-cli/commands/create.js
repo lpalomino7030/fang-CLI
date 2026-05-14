@@ -1,6 +1,6 @@
-import { ask } from "../plugins/prompts.js";
-import { generateProject } from "../plugins/generateProject.js";
-import { generateHandleProject } from "../plugins/generateHandleProject.js";
+import { ask } from "../core/prompt/prompt.js";
+import { generateProject } from "..//generator/generateProject.js";
+import { generateHandleProject } from "../generator/generateHandleProject.js";
 
 export async function createProject(projectName, flags = []) {
   let template = "default";

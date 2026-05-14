@@ -1,4 +1,4 @@
-import { generateModule } from "../plugins/generateModule.js";
+import { generateModule } from "../generator/generateModule.js";
 
 export function module(nameModule, flags) {
   if (!nameModule) {

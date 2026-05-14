@@ -21,6 +21,7 @@ switch (command) {
     buildProject(args[1]);
     break;
   case "dev":
+  case "run":
     runProject(args[1]);
     break;
   case "module":
