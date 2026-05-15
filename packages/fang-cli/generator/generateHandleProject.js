@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
 
-import { createStructure } from "../templates/core/createStructure.js";
-import { createFiles } from "../templates/core/createFiles.js";
-import { installDependencies } from "../templates/core/installDependencies.js";
+import { createStructure } from "../core/fileSystem/createStructure.js";
+import { createFiles } from "../core/fileSystem/createFiles.js";
+import { installDependencies } from "../core/fileSystem/installDependencies.js";
 
 export function generateHandleProject(projectName) {
   const rootDir = path.resolve(process.cwd(), projectName);

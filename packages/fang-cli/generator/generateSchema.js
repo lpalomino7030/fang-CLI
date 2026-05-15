@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { capitalizedChar } from "../utils/capitalizedChar.js";
+import { capitalizedChar } from "../core/utils/capitalizedChar.js";
 
 export function generateSchema(name, route) {
   name = capitalizedChar(name);

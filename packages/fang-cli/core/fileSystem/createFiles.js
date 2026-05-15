@@ -3,8 +3,6 @@ import path from "path";
 import { loadTemplate } from "./loadTemplate.js";
 import { fileURLToPath } from "url";
 
-import { loadTemplate } from "./loadTemplate.js";
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const templateDir = path.join(__dirname, "../../templates/typescript");

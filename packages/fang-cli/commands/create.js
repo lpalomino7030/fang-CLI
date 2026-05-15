@@ -1,5 +1,5 @@
-import { ask } from "../core/prompt/prompt.js";
-import { generateProject } from "..//generator/generateProject.js";
+import { ask } from "../core/prompts/prompts.js";
+import { generateProject } from "../generator/generateProject.js";
 import { generateHandleProject } from "../generator/generateHandleProject.js";
 
 export async function createProject(projectName, flags = []) {

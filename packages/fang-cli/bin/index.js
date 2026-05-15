@@ -5,6 +5,7 @@ import { startProject } from "../commands/start.js";
 import { buildProject } from "../commands/build.js";
 import { runProject } from "../commands/run.js";
 import { module } from "../commands/modules.js";
+import { version } from "../commands/version.js";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -26,6 +27,9 @@ switch (command) {
     break;
   case "module":
     module(args[1], args.slice(2));
+    break;
+  case "--version":
+    version();
     break;
   default:
     console.log("Comando no reconocido");
