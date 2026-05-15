@@ -4,6 +4,8 @@ import path from "path";
 import { createStructure } from "../core/fileSystem/createStructure.js";
 import { createFiles } from "../core/fileSystem/createFiles.js";
 import { installDependencies } from "../core/fileSystem/installDependencies.js";
+import { tree } from "../core/terminal/tree.js";
+import { logger, bannerFang } from "../core/terminal/logger.js";
 
 export function generateHandleProject(projectName) {
   const rootDir = path.resolve(process.cwd(), projectName);
@@ -13,15 +15,21 @@ export function generateHandleProject(projectName) {
     process.exit(1);
   }
 
+  bannerFang(projectName);
+
+  console.log();
+  console.log(`◇ Creating project ${projectName}`);
+  console.log(tree.pipe);
+
   fs.mkdirSync(rootDir);
 
-  console.log("Creating structure...");
+  console.log(tree.branch + "Creating structure...");
   createStructure(rootDir);
 
-  console.log("Creating files...");
+  console.log(tree.branch + "Creating files...");
   createFiles(rootDir, projectName);
 
-  console.log("Installing dependencies...");
+  console.log(tree.last + "Installing dependencies...");
   installDependencies(rootDir);
 
   console.log(`

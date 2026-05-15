@@ -7,6 +7,7 @@ import { generateSchema } from "./GenerateSchema.js";
 
 import { logger } from "../core/terminal/logger.js";
 import { colorize, colors } from "../core/terminal/colors.js";
+import { tree } from "../core/terminal/tree.js";
 import { badge, colorizeBadge } from "../core/terminal/badge.js";
 
 export function generateModule(nameModule) {
@@ -19,12 +20,21 @@ export function generateModule(nameModule) {
 
   try {
     fs.mkdirSync(targetDir);
-    console.log(`Creating module ` + colorizeBadge(`${nameModule}`, colors.bgBlue));
+    // console.log(`Creating module ` + colorizeBadge(`${nameModule}`, colors.bgBlue));
     generateSchema(nameModule, targetDir);
     generateService(nameModule, targetDir);
     generateController(nameModule, targetDir);
 
-    console.log("Structure created successfully: ", nameModule);
+    console.log(`◇ Creating module ${nameModule}`);
+    console.log(tree.pipe);
+
+    console.log(`${tree.branch} schema created`);
+    console.log(`${tree.branch} service created`);
+    console.log(`${tree.last} controller created`);
+
+    console.log();
+    logger.success("Done");
+
   } catch (error) {
     logger.error(`  🐺  Fang ERROR: Failed to create folder ` + colorize(colors.red, error));
     process.exit(1);

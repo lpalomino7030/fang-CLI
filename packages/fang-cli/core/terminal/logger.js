@@ -1,4 +1,4 @@
-import { colors } from "./colors.js";
+import { colors, colorize } from "./colors.js";
 
 export const logger = {
     success(message) {
@@ -25,3 +25,16 @@ export const logger = {
         );
     },
 };
+
+export function bannerFang(name) {
+    console.log(`
+${colors.magenta}███████╗ █████╗ ███╗   ██╗ ██████╗${colors.reset}    ${colors.cyan}███████╗██╗     ██╗${colors.reset}
+${colors.magenta}██╔════╝██╔══██╗████╗  ██║██╔════╝${colors.reset}    ${colors.cyan}██╔════╝██║     ██║${colors.reset}
+${colors.magenta}█████╗  ███████║██╔██╗ ██║██║  ███╗${colors.reset}   ${colors.cyan}██║     ██║     ██║${colors.reset}
+${colors.magenta}██╔══╝  ██╔══██║██║╚██╗██║██║   ██║${colors.reset}   ${colors.cyan}██║     ██║     ██║${colors.reset}
+${colors.magenta}██║     ██║  ██║██║ ╚████║╚██████╔╝${colors.reset}   ${colors.cyan}╚██████╗███████╗██║${colors.reset}
+${colors.magenta}╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝${colors.reset}     ${colors.cyan}╚═════╝╚══════╝╚═╝${colors.reset}
+
+${colors.green}✔ ${name} initialized${colors.reset}
+`);
+}
