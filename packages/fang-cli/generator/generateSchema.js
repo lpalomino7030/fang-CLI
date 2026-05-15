@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { capitalizedChar } from "../core/utils/capitalizedChar.js";
+import { badge } from "../core/terminal/badge.js";
 
 export function generateSchema(name, route) {
   name = capitalizedChar(name);
@@ -14,6 +15,7 @@ export class I${name}Schema {
   if (!isExists) {
     fs.writeFileSync(path.join(route, `${name}.schema.ts`), template, "utf-8");
     console.log("Schema created successfully");
+
   } else {
     console.log("Schema already exists");
   }

@@ -8,5 +8,4 @@ export function module(nameModule, flags) {
 
   generateModule(nameModule);
 
-  console.log("Module created successfully");
 }
