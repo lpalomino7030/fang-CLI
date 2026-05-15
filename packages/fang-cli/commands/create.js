@@ -7,7 +7,11 @@ export async function createProject(projectName, flags = []) {
 
   // INTERACTIVE MODE
   if (!projectName) {
-    projectName = await ask("Project name: ");
+    projectName = await ask("Project name: (Backend)");
+
+    if (!projectName) {
+      projectName = "Backend";
+    }
 
     const language = await ask("Language (ts/js): ");
 

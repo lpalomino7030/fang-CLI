@@ -6,6 +6,8 @@ import { buildProject } from "../commands/build.js";
 import { runProject } from "../commands/run.js";
 import { module } from "../commands/modules.js";
 import { version } from "../commands/version.js";
+import { unknowComand } from "../core/terminal/unknowComand.js";
+import { help } from "../commands/help.js";
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -28,9 +30,17 @@ switch (command) {
   case "module":
     module(args[1], args.slice(2));
     break;
+  case "help":
+  case "--help":
+  case "-h":
+    help();
+    break;
+  case "version":
   case "--version":
+  case "-v":
     version();
     break;
   default:
-    console.log("Comando no reconocido");
+    unknowComand(args[0]);
+    break;
 }

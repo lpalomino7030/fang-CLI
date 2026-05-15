@@ -7,6 +7,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const templateDir = path.join(__dirname, "../../templates/typescript");
 
+const commonsTemplate = path.join(__dirname, "../../templates/common");
+
 export function createFiles(rootDir, projectName) {
   const variables = { projectName };
 
@@ -26,7 +28,7 @@ export function createFiles(rootDir, projectName) {
   );
 
   const gitIgnoreTemplate = loadTemplate(
-    path.join(templateDir, ".gitignore.template"),
+    path.join(commonsTemplate, ".gitignore.template"),
     variables,
   );
 
