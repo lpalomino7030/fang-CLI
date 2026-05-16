@@ -1,5 +1,8 @@
 import fs from "fs";
 import path from "path";
+import { logger } from "../core/terminal/logger.js";
+import { colorize, colors } from "../core/terminal/colors.js";
+import { tree } from "../core/terminal/tree.js";
 
 export function generateController(name, route) {
   let template = `
@@ -17,7 +20,9 @@ export class ${name}Controller {
       template,
       "utf-8",
     );
-    console.log("Controller created successfully");
+    console.log(colorize(colors.blue, tree.last) + ` controller created`);
+
+    // console.log("Controller created successfully");
   } else {
     console.log("Controller already exists");
   }

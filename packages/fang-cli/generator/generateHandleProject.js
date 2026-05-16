@@ -5,7 +5,7 @@ import { createStructure } from "../core/fileSystem/createStructure.js";
 import { createFiles } from "../core/fileSystem/createFiles.js";
 import { installDependencies } from "../core/fileSystem/installDependencies.js";
 import { tree } from "../core/terminal/tree.js";
-import { logger, bannerFang } from "../core/terminal/logger.js";
+import { bannerFang } from "../core/terminal/banner.js";
 
 export function generateHandleProject(projectName) {
   const rootDir = path.resolve(process.cwd(), projectName);
