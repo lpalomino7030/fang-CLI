@@ -16,6 +16,8 @@
   "files": [
     "bin",
     "commands",
+    "core",
+    "generator",
     "plugins",
     "templates"
   ],

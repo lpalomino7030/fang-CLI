@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { execSync, spawn } from "child_process";
-
+let restarting = false;
 export function runProject() {
   const targetDir = path.resolve(process.cwd(), "src");
 
@@ -12,37 +12,77 @@ export function runProject() {
   function buildProject() {
     console.log("Building project...");
 
-    execSync("npm run build", {
-      stdio: "inherit",
-    });
+    try {
+      execSync("npm run build", {
+        stdio: "inherit",
+      });
+
+      return true;
+    } catch {
+      console.log("Build failed");
+
+      return false;
+    }
   }
 
   // START
   function startProject() {
     console.log("Starting project...");
 
-    child = spawn("node", ["dist/index.js"], {
-      stdio: "inherit",
-    });
+    child = spawn(
+      "node",
+      ["--enable-source-maps", "dist/index.js"],
+      {
+        stdio: "inherit",
+      }
+    );
   }
 
   // RESTART
+  // function restartProject() {
+  //   console.log("Restarting project...");
+
+  //   if (child) {
+  //     child.once("exit", () => {
+  //       buildProject();
+  //       startProject();
+  //     });
+
+  //     child.kill();
+
+  //     return;
+  //   }
+
+  //   buildProject();
+  //   startProject();
+  // }
+
   function restartProject() {
+    if (restarting) return;
+
+    restarting = true;
+
     console.log("Restarting project...");
 
-    if (child) {
-      child.once("exit", () => {
-        buildProject();
+    const restart = () => {
+      const success = buildProject();
+
+      if (success) {
         startProject();
-      });
+      }
+
+      restarting = false;
+    };
+
+    if (child) {
+      child.once("exit", restart);
 
       child.kill();
 
       return;
     }
 
-    buildProject();
-    startProject();
+    restart();
   }
 
   // VALIDATION

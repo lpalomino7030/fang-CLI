@@ -7,6 +7,7 @@ import { runProject } from "../commands/run.js";
 import { module } from "../commands/modules.js";
 import { version } from "../commands/version.js";
 import { unknowComand } from "../core/terminal/unknowComand.js";
+import { addFeature } from "../commands/add.js";
 import { help } from "../commands/help.js";
 
 const args = process.argv.slice(2);
@@ -16,6 +17,9 @@ switch (command) {
   case "create":
   case "new":
     createProject(args[1], args.slice(2));
+    break;
+  case "add":
+    addFeature(args.slice(1));
     break;
   case "start":
     startProject(args[1]);
@@ -28,7 +32,7 @@ switch (command) {
     runProject(args[1]);
     break;
   case "module":
-    module(args[1], args.slice(2));
+    module(args[1]);
     break;
   case "help":
   case "--help":

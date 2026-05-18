@@ -1,6 +1,6 @@
-import { generateModule } from "../generator/generateModule.js";
+import { generateModule } from "../generator/generate";
 
-export function module(nameModule, flags) {
+export function module(nameModule) {
   if (!nameModule) {
     console.error("Module name is required");
     return;

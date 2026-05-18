@@ -1,6 +1,10 @@
 import { ask } from "../core/prompts/prompts.js";
 import { generateProject } from "../generator/generateProject.js";
 import { generateHandleProject } from "../generator/generateHandleProject.js";
+import { resolveFlags } from "../core/parser/resolveFlags.js";
+
+
+const start = Date.now();
 
 export async function createProject(projectName, flags = []) {
 
@@ -16,17 +20,17 @@ export async function createProject(projectName, flags = []) {
     return;
   }
 
-  // FLAG MODE
-  const templateFlag = flags.find((f) => f.startsWith("--template="));
+  let configuration = {};
 
-  // fang create myapp
-  // if (!templateFlag) {
-  //   generateProject("default", projectName);
-  //   return;
-  // }
+  configuration = resolveFlags(flags);
 
-  // fang create myapp --template=api
-  const template = templateFlag.split("=")[1];
+  try {
+    generateProject(projectName, configuration);
 
-  generateProject(template, projectName);
+
+  } catch (error) {
+    console.error(error.message);
+
+  }
+
 }

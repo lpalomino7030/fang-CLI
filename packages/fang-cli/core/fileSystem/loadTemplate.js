@@ -1,5 +1,4 @@
 import fs from "fs";
-import path from "path";
 
 export function loadTemplate(templatePath, variables = {}) {
   let content = fs.readFileSync(templatePath, "utf-8");

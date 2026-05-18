@@ -6,7 +6,7 @@ import { copyFolder } from "../core/fileSystem/copyFolder.js";
 import { replaceProjectName } from "../core/utils/replaceProjectName.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-export function generateProject(template, projectName) {
+export function generateProject(projectName, configuration) {
   const targetDir = path.resolve(process.cwd(), projectName);
 
   if (fs.existsSync(targetDir)) {
@@ -15,10 +15,10 @@ export function generateProject(template, projectName) {
     process.exit(1);
   }
 
-  const templateDir = path.join(__dirname, "../templates", template);
+  const templateDir = path.join(__dirname, "../templates", configuration.template);
 
   if (!fs.existsSync(templateDir)) {
-    console.error(`Fang ERROR: Template "${template}" does not exist`);
+    console.error(`Fang ERROR: Template "${configuration.template}" does not exist`);
 
     process.exit(1);
   }

@@ -31,7 +31,7 @@ export function generateModule(nameModule) {
     generateController(nameModule, targetDir);
 
     console.log();
-    logger.success("  Done");
+    logger.success("  🐺 Done");
     console.log();
 
 

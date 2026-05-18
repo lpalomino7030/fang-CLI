@@ -15,7 +15,6 @@ export const colors = {
     blue: "\x1b[34m",
     magenta: "\x1b[35m",
     cyan: "\x1b[36m",
-    bold: "\x1b[1m",
 
     // BACKGROUND COLORS
     bgBlack: "\x1b[40m",
