@@ -16,7 +16,7 @@ export function generateModule(nameModule) {
 
   if (fs.existsSync(targetDir)) {
     logger.error(`  🐺  Fang ERROR: The folder ` + colorize(colors.yellow, nameModule) + colorize(colors.red, ` already exists`));
-    process.exit(1);
+    process.exit(1);    process.exit(1);
   }
 
   try {
